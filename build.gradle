@@ -1,0 +1,83 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+
+jar {
+    baseName = 'Jvm-serializer'
+    version = '1.0'
+    manifest {
+        attributes 'Implementation-Title': 'Jvm serializer', 'Implementation-Version': version
+    }
+
+configurations{
+    serializer{
+        description='One jvm seriazlier benchmark platform.'
+        visible=false
+    }
+}
+configurations.serializer {
+    resolutionStrategy {
+      failOnVersionConflict()
+      force 'junit:junit:4.11'
+      cacheDynamicVersionsFor(0, 'seconds')
+   }
+}
+
+configurations.compile.resolutionStrategy {
+    cacheChangingModulesFor(0, 'seconds')
+    }
+
+ext {
+    serializerGroup='com.creative.commons'
+    serializerGroup=version
+    linkHomepage = 'https://github.com/vongosling/jvm-serializer'
+    linkCi = 'https://github.com/vongosling/jvm-serializer/issues'
+    linkIssue = 'https://github.com/vongosling/jvm-serializer/issues'
+    linkScmUrl = 'https://github.com/vongosling/jvm-serializer'
+    linkScmConnection = 'scm:git:git://github.com/vongosling/jvm-serializer.git'
+    linkScmDevConnection = 'scm:git:ssh://git@github.com:vongosling/jvm-serializer.git'
+}
+
+compileJava.options*.compilerArgs = [
+    "-Xlint:serial", "-Xlint:varargs", "-Xlint:cast", "-Xlint:classfile",
+    "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
+    "-Xlint:overrides", "-Xlint:path", "-Xlint:processing", "-Xlint:static",
+    "-Xlint:try", "-Xlint:fallthrough", "-Xlint:rawtypes", "-Xlint:deprecation",
+    "-Xlint:unchecked", "-Xlint:-options", "-Werror"
+]
+
+compileTestJava.options*.compilerArgs = [
+    "-Xlint:serial", "-Xlint:varargs", "-Xlint:cast", "-Xlint:classfile",
+    "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
+    "-Xlint:overrides", "-Xlint:path", "-Xlint:processing", "-Xlint:static",
+    "-Xlint:try", "-Xlint:-fallthrough", "-Xlint:-rawtypes", "-Xlint:-deprecation",
+    "-Xlint:-unchecked", "-Xlint:-options"
+]
+
+compileJava {
+    sourceCompatibility=1.7
+    targetCompatibility=1.7
+}
+
+compileTestJava {
+    sourceCompatibility=1.7
+    targetCompatibility=1.7
+}
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'com.caucho', name: 'hessian', version : '4.0.38'
+    compile group: 'com.alibaba', name: 'fastjson', version : '1.2.3'
+    compile group: 'com.esotericsoftware', name: 'kryo-shaded', version : '3.0.0'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+    compile('com.google.guava:guava:18.0')
+}
+
+test {
+    systemProperties 'property': 'value'
+}
