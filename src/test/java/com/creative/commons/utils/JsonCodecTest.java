@@ -14,6 +14,7 @@ public class JsonCodecTest extends CodecTest{
     public void jsonCodecTest() {
         Father father = new Father();
         byte[] obj1 = JsonCodec.encode(father);
+        System.out.println(obj1.length);
         Father fatherCopy = JsonCodec.decode(obj1, Father.class);
 
         //Timestamp type

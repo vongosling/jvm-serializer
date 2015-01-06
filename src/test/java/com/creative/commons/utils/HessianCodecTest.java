@@ -22,6 +22,7 @@ public class HessianCodecTest extends CodecTest{
     public void hessianCodecTest() throws Throwable {
         Father father = new Father();
         byte[] obj1 = HessianCodec.encode(father);
+        System.out.println(obj1.length);
         Father fatherCopy = (Father) HessianCodec.decode(obj1);
 
         //Timestamp type is null

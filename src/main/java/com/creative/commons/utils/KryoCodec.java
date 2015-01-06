@@ -88,8 +88,8 @@ public abstract class KryoCodec {
         idList.add(id);
     }
 
-    public static synchronized void register(Class<?> className){
-          getKryo().register(className);
+    public static synchronized void register(Class<?> className) {
+        getKryo().register(className);
     }
 
     public static Kryo getKryo() {
@@ -102,7 +102,8 @@ public abstract class KryoCodec {
     }
 
     public static byte[] encode(Object object) throws Exception {
-        Output output = new Output(1024 * 1024);
+        //4K
+        Output output = new Output(4096);
         getKryo().writeClassAndObject(output, object);
         return output.toBytes();
     }
