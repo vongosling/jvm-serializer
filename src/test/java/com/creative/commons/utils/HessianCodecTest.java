@@ -1,105 +1,105 @@
 package com.creative.commons.utils;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
-import org.junit.After;
-import org.junit.Before;
+import com.caucho.hessian.io.ExtSerializerFactory;
+import com.caucho.hessian.io.LocaleSerializer;
+import com.caucho.hessian.io.SerializerFactory;
+import com.creative.model.Father;
+import com.creative.model.Message;
+import com.creative.model.Son;
+import com.google.common.base.Stopwatch;
+import org.junit.Assert;
 import org.junit.Test;
 
-import com.caucho.hessian.io.Hessian2Input;
-import com.caucho.hessian.io.Hessian2Output;
-import com.caucho.hessian.io.SerializerFactory;
-import com.google.common.base.Stopwatch;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.BitSet;
+import java.util.EnumSet;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
-/**
- * @author Von Gosling
- */
-public class HessianCodecTest {
-    Message             obj   = new Message(
-                                      "Most message-oriented middleware (MOM) products treat messages as lightweight entities that consist of a header and a body. The header contains fields used for message routing and identification; the body contains the application data being sent.");
-    Map<String, Object> props = Maps.newHashMap();
+public class HessianCodecTest extends CodecTest{
+    @Test
+    public void hessianCodecTest() throws Throwable {
+        Father father = new Father();
+        byte[] obj1 = HessianCodec.encode(father);
+        Father fatherCopy = (Father) HessianCodec.decode(obj1);
 
-    @Before
-    public void init() {
-        props.put("boolean", Boolean.TRUE);
-        props.put("byte", Byte.MAX_VALUE);
-        props.put("short", Short.MAX_VALUE);
-        props.put("int", Integer.MAX_VALUE);
-        props.put("long", Long.MAX_VALUE);
-        props.put("float", Float.MAX_EXPONENT);
-        props.put("double", Double.MAX_EXPONENT);
-        props.put("String", String.valueOf("VonGosling"));
-        props.put("trait", Lists.newArrayListWithCapacity(1000));
-        props.put("case", Objects.toString(obj));
+        //Timestamp type is null
+        //System.out.println(fatherCopy.getLocation_time());
+        //System.out.println(father.getLocation_time());
 
-        obj.setProperties(props);
+        //Float type field is null
+        //System.out.println(fatherCopy.getCet4Score());
+
+        //Locale,if not set ext ExtSerializerFactory
+        //bugs,http://bugs.caucho.com/view.php?id=5046
+        //System.out.println(fatherCopy.getLocale());
+        //System.out.println(father.getLocale());
+
+        //EnumSet
+        //Warning:WARNING: Hessian/Burlap: 'java.lang.Enum' is an unknown class in sun.misc.Launcher$AppClassLoader@9cc3baa:
+        //java.lang.RuntimeException: Class java.lang.Enum is not an enum
+        //System.out.println(fatherCopy.getCertificates());
+        //System.out.println(father.getCertificates());
+
+        //BitSet
+        //bug
+        //System.out.println(fatherCopy.getqRCode());
+        //System.out.println(father.getqRCode());
+
+        SerializerFactory serializerFactory = SerializerFactory.createDefault();
+        ExtSerializerFactory extFactory = new ExtSerializerFactory();
+        extFactory.addSerializer(Locale.class, LocaleSerializer.create());
+        //extFactory.addSerializer(Enum.class,new EnumSerializer(Enum.class));
+        //extFactory.addDeserializer(Enum.class,new EnumDeserializer(Enum.class));
+        serializerFactory.addFactory(extFactory);
+        System.out.println(serializerFactory.getSerializer(Locale.class));
+        System.out.println(serializerFactory.getSerializer(BigDecimal.class));
+        System.out.println(serializerFactory.getSerializer(EnumSet.class));
+        System.out.println(serializerFactory.getSerializer(BitSet.class));
+        //System.out.println(serializerFactory.getDeserializer(Enum.class));
+
+        Assert.assertEquals(father.getSalary(), fatherCopy.getSalary());
+
+        Son son = new Son();
+        byte[] obj2 = HessianCodec.encode(son);
+        Son sonCopy = (Son) HessianCodec.decode(obj2);
+
+        //Enum
+        System.out.println(sonCopy.getCf());
+        System.out.println(son.getCf());
+
+        //same name filed
+        System.out.println(son.getAge());
+        System.out.println(sonCopy.getAge());
+        System.out.println(son.isCCP());
+        System.out.println(sonCopy.isCCP());
     }
 
     @Test
-    public void testHessianSerializer() throws Throwable {
+    public void hessianCodecMultiTest() throws Throwable {
+        //Warmup
+        for (int i = 1; i < warmupIter; i++) {
+            hessianEncodeAndDecode();
+        }
+        //do multi-test
         Stopwatch watch = Stopwatch.createStarted();
-        SerializerFactory sf = new SerializerFactory();
-        for (int i = 1; i < 100001; i++) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            Hessian2Output output = new Hessian2Output(baos);
-            output.setSerializerFactory(sf);
-            output.setCloseStreamOnClose(true);
-            output.startMessage();
-            output.writeObject(obj);
-            output.completeMessage();
-
-            output.close();
-            //baos.close();
-
-            ByteArrayInputStream bis = new ByteArrayInputStream(baos.toByteArray());
-            Hessian2Input input = new Hessian2Input(bis);
-            input.setSerializerFactory(sf);
-            input.setCloseStreamOnClose(true);
-            input.startMessage();
-            input.readObject();
-            input.completeMessage();
-
-            input.close();
-            //bis.close();
+        for (int i = 1; i < testIter; i++) {
+            hessianEncodeAndDecode();
         }
         watch.stop();
         System.out.println(String.format("Hessian serializer-deserializer costs: %d ms",
                 watch.elapsed(TimeUnit.MILLISECONDS)));
-
     }
 
-    @Test
-    public void testExternalizer() throws IOException, ClassNotFoundException {
-        Stopwatch watch = Stopwatch.createStarted();
-        for (int i = 1; i < 100001; i++) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
-            oos.writeObject(obj);
-            oos.close();
-            baos.close();
+    private void hessianEncodeAndDecode() throws IOException {
+        byte[] obj1 = HessianCodec.encode(msg1);
+        msg1 = (Message) HessianCodec.decode(obj1);
 
-            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-            ObjectInputStream ois = new ObjectInputStream(bais);
-            ois.readObject();
-            ois.close();
-            bais.close();
-        }
-        watch.stop();
-        System.out.println(String.format("Java externalizer costs: %d ms",
-                watch.elapsed(TimeUnit.MILLISECONDS)));
-    }
+        byte[] obj2 = HessianCodec.encode(msg2);
+        msg2 = (Message) HessianCodec.decode(obj2);
 
-    @After
-    public void destroy() {
-        props.clear();
+        byte[] obj3 = HessianCodec.encode(msg3);
+        msg3 = (Message) HessianCodec.decode(obj3);
     }
 }

@@ -12,8 +12,9 @@ import com.alibaba.fastjson.serializer.SimpleDateFormatSerializer;
  */
 public abstract class JsonCodec {
     private static SerializeConfig config = new SerializeConfig();
-    private static SerializerFeature[] sfeatures = { SerializerFeature.UseISO8601DateFormat };
-    private static Feature[] features = { Feature.AllowISO8601DateFormat };
+    private static SerializerFeature[] sfeatures = {SerializerFeature.WriteEnumUsingToString,SerializerFeature.UseISO8601DateFormat, SerializerFeature.DisableCircularReferenceDetect};
+    private static Feature[] features = {Feature.AllowISO8601DateFormat, Feature.DisableCircularReferenceDetect};
+
     static {
         config.put(java.util.Date.class, new SimpleDateFormatSerializer("yyyy-MM-dd HH:mm:ss"));
         config.put(java.sql.Date.class, new SimpleDateFormatSerializer("yyyy-MM-dd HH:mm:ss"));
@@ -24,7 +25,7 @@ public abstract class JsonCodec {
         return JSONObject.toJSONString(content, config, sfeatures).getBytes();
     }
 
-    public static Object decode(byte[] content) {
-        return JSON.parse(content, features);
+    public static <T> T decode(byte[] content, Class<T> clazz) {
+        return JSON.parseObject(content, clazz, features);
     }
 }

@@ -2,35 +2,29 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
 
+ext.projectIds = ['group': 'com.creative.commons', 'version': '0.1']
+group = projectIds.group
+version = projectIds.version
 
-jar {
-    baseName = 'Jvm-serializer'
-    version = '1.0'
-    manifest {
-        attributes 'Implementation-Title': 'Jvm serializer', 'Implementation-Version': version
-    }
-
-configurations{
-    serializer{
-        description='One jvm seriazlier benchmark platform.'
-        visible=false
+configurations {
+    serializer {
+        description = 'One jvm seriazlier benchmark platform.'
+        visible = false
     }
 }
 configurations.serializer {
     resolutionStrategy {
-      failOnVersionConflict()
-      force 'junit:junit:4.11'
-      cacheDynamicVersionsFor(0, 'seconds')
-   }
+        failOnVersionConflict()
+        force('junit:junit:4.11')
+        cacheDynamicVersionsFor(0, 'seconds')
+    }
 }
 
 configurations.compile.resolutionStrategy {
     cacheChangingModulesFor(0, 'seconds')
-    }
+}
 
 ext {
-    serializerGroup='com.creative.commons'
-    serializerGroup=version
     linkHomepage = 'https://github.com/vongosling/jvm-serializer'
     linkCi = 'https://github.com/vongosling/jvm-serializer/issues'
     linkIssue = 'https://github.com/vongosling/jvm-serializer/issues'
@@ -40,30 +34,37 @@ ext {
 }
 
 compileJava.options*.compilerArgs = [
-    "-Xlint:serial", "-Xlint:varargs", "-Xlint:cast", "-Xlint:classfile",
-    "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
-    "-Xlint:overrides", "-Xlint:path", "-Xlint:processing", "-Xlint:static",
-    "-Xlint:try", "-Xlint:fallthrough", "-Xlint:rawtypes", "-Xlint:deprecation",
-    "-Xlint:unchecked", "-Xlint:-options", "-Werror"
+        "-Xlint:serial", "-Xlint:varargs", "-Xlint:cast", "-Xlint:classfile",
+        "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
+        "-Xlint:overrides", "-Xlint:path", "-Xlint:processing", "-Xlint:static",
+        "-Xlint:try", "-Xlint:fallthrough", "-Xlint:rawtypes", "-Xlint:deprecation",
+        "-Xlint:unchecked", "-Xlint:-options", "-Werror"
 ]
 
 compileTestJava.options*.compilerArgs = [
-    "-Xlint:serial", "-Xlint:varargs", "-Xlint:cast", "-Xlint:classfile",
-    "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
-    "-Xlint:overrides", "-Xlint:path", "-Xlint:processing", "-Xlint:static",
-    "-Xlint:try", "-Xlint:-fallthrough", "-Xlint:-rawtypes", "-Xlint:-deprecation",
-    "-Xlint:-unchecked", "-Xlint:-options"
+        "-Xlint:serial", "-Xlint:varargs", "-Xlint:cast", "-Xlint:classfile",
+        "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
+        "-Xlint:overrides", "-Xlint:path", "-Xlint:processing", "-Xlint:static",
+        "-Xlint:try", "-Xlint:-fallthrough", "-Xlint:-rawtypes", "-Xlint:-deprecation",
+        "-Xlint:-unchecked", "-Xlint:-options"
 ]
 
 compileJava {
-    sourceCompatibility=1.7
-    targetCompatibility=1.7
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 }
 
 compileTestJava {
-    sourceCompatibility=1.7
-    targetCompatibility=1.7
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 }
+
+jar {
+    baseName = 'Jvm-serializer'
+    version = '1.0'
+    manifest {
+        attributes 'Implementation-Title': 'Jvm serializer', 'Implementation-Version': version
+    }
 }
 
 repositories {
@@ -71,13 +72,23 @@ repositories {
 }
 
 dependencies {
-    compile group: 'com.caucho', name: 'hessian', version : '4.0.38'
-    compile group: 'com.alibaba', name: 'fastjson', version : '1.2.3'
-    compile group: 'com.esotericsoftware', name: 'kryo-shaded', version : '3.0.0'
+    compile group: 'com.caucho', name: 'hessian', version: '4.0.38'
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.3'
+    compile group: 'com.esotericsoftware', name: 'kryo-shaded', version: '3.0.0'
+    //compile group: 'com.esotericsoftware.kryo', name: 'kryo', version: '2.24.0'
     testCompile group: 'junit', name: 'junit', version: '4.+'
     compile('com.google.guava:guava:18.0')
+    //testCompile 'org.codehaus.groovy:groovy:2.3.9'
 }
 
 test {
-    systemProperties 'property': 'value'
+    //systemProperties 'property': 'value'
+    testLogging {
+        showStandardStreams = true
+        exceptionFormat 'full'
+        events 'started', 'passed', 'skipped', 'failed'
+    }
+    minHeapSize = '128m'
+    maxHeapSize = '256m'
+    jvmArgs '-XX:MaxPermSize=128m'
 }

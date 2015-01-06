@@ -4,20 +4,28 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Locale;
 
-import com.caucho.hessian.io.Hessian2Input;
-import com.caucho.hessian.io.Hessian2Output;
-import com.caucho.hessian.io.SerializerFactory;
+import com.caucho.hessian.io.*;
 
 /**
  * @author von gosling
  */
 public abstract class HessianCodec {
 
-    private static final SerializerFactory serializerFactory = new SerializerFactory();
+    private static final SerializerFactory serializerFactory =  SerializerFactory.createDefault();
+
+    static {
+        ExtSerializerFactory extFactory = new ExtSerializerFactory();
+        extFactory.addSerializer(Locale.class, LocaleSerializer.create());
+        extFactory.addSerializer(BigDecimal.class, new StringValueSerializer());
+        extFactory.addDeserializer(BigDecimal.class,new BigDecimalDeserializer());
+        serializerFactory.addFactory(extFactory);
+    }
 
     public static Serializable decode(byte[] array) throws IOException {
-        Object obj = null;
+        Object obj;
         ByteArrayInputStream bais = new ByteArrayInputStream(array);
         Hessian2Input hi = new Hessian2Input(bais);
         hi.setSerializerFactory(serializerFactory);
