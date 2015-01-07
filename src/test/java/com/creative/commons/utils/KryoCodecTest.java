@@ -11,6 +11,14 @@ import org.junit.Test;
 import java.util.concurrent.TimeUnit;
 
 public class KryoCodecTest extends CodecTest {
+
+    @Test
+    public void kryoCodecSizeTest() throws Throwable {
+        KryoCodec.register(Message.class);
+        byte[] obj1 = KryoCodec.encode(msg1);
+        System.out.println(obj1.length);
+    }
+
     @Test
     public void kryoCodecMultiTest() throws Exception {
         //Warmup
@@ -51,7 +59,6 @@ public class KryoCodecTest extends CodecTest {
 
         Father father = new Father();
         byte[] obj1 = KryoCodec.encode(father);
-        System.out.println(obj1.length);
         Father fatherCopy = (Father) KryoCodec.decode(obj1);
 
         Assert.assertEquals(father, fatherCopy);

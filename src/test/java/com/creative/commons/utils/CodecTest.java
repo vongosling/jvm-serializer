@@ -75,6 +75,15 @@ public class CodecTest {
         Assert.assertEquals(father, fatherCopy);
     }
 
+    @Test
+    public void javaCodecSizeTest() throws Throwable {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(msg1);
+        System.out.println(baos.toByteArray().length);
+        oos.close();
+        baos.close();
+    }
 
     @Test
     public void javaCodecMultiTest() throws Exception {

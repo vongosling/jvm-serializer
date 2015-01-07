@@ -1,19 +1,17 @@
 package com.creative.commons.utils;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.sql.Timestamp;
-import java.util.*;
-
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoSerializable;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import com.esotericsoftware.kryo.serializers.*;
 import com.google.common.collect.Lists;
 import org.objenesis.strategy.StdInstantiatorStrategy;
-import sun.util.calendar.ZoneInfo;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * @author von gosling
@@ -56,14 +54,17 @@ public abstract class KryoCodec {
             kryo.register(Collection.class);
             kryo.register(TreeMap.class);
             kryo.register(Map.class);
-            kryo.register(TimeZone.class);
+            try {
+                kryo.register(Class.forName("sun.util.calendar.ZoneInfo"));
+            } catch (ClassNotFoundException e) {
+                //Noop
+            }
             kryo.register(Calendar.class);
             kryo.register(Locale.class);
 
             kryo.register(BitSet.class);
             kryo.register(HashMap.class);
             kryo.register(Timestamp.class);
-            kryo.register(ZoneInfo.class);
             kryo.register(ArrayList.class);
 
             int size = idList.size();

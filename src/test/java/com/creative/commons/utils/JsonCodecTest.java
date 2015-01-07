@@ -10,11 +10,17 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class JsonCodecTest extends CodecTest{
+
+    @Test
+    public void jsonCodecSizeTest() throws Throwable {
+        byte[] obj1 = JsonCodec.encode(msg1);
+        System.out.println(obj1.length);
+    }
+
     @Test
     public void jsonCodecTest() {
         Father father = new Father();
         byte[] obj1 = JsonCodec.encode(father);
-        System.out.println(obj1.length);
         Father fatherCopy = JsonCodec.decode(obj1, Father.class);
 
         //Timestamp type

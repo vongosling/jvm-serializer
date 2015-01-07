@@ -18,11 +18,17 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class HessianCodecTest extends CodecTest{
+
+    @Test
+    public void hessianCodecSizeTest() throws Throwable {
+        byte[] obj1 = HessianCodec.encode(msg1);
+        System.out.println(obj1.length);
+    }
+
     @Test
     public void hessianCodecTest() throws Throwable {
         Father father = new Father();
         byte[] obj1 = HessianCodec.encode(father);
-        System.out.println(obj1.length);
         Father fatherCopy = (Father) HessianCodec.decode(obj1);
 
         //Timestamp type is null
