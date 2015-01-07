@@ -16,4 +16,4 @@ jvm-serializer
 ![Codec Time consumption comparison](https://raw.githubusercontent.com/vongosling/jvm-serializer/master/resources/costs.png)
 ![Codec size comparison](https://raw.githubusercontent.com/vongosling/jvm-serializer/master/resources/size.png)
 
-##### If you have any good advice,please contact me through email:fengjia10@gmail.com
+##### If you have any good advice,please contact me through email fengjia10@gmail.com
