@@ -1,6 +1,5 @@
 package com.creative.commons.utils;
 
-import com.creative.model.Father;
 import com.creative.model.Message;
 import com.creative.model.Son;
 import com.google.common.base.Stopwatch;
@@ -19,9 +18,9 @@ public class JsonCodecTest extends CodecTest{
 
     @Test
     public void jsonCodecTest() {
-        Father father = new Father();
-        byte[] obj1 = JsonCodec.encode(father);
-        Father fatherCopy = JsonCodec.decode(obj1, Father.class);
+        //Father father = new Father();
+        //byte[] obj1 = JsonCodec.encode(father);
+        //Father fatherCopy = JsonCodec.decode(obj1, Father.class);
 
         //Timestamp type
         //System.out.println(fatherCopy.getLocation_time());
