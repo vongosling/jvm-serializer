@@ -4,11 +4,9 @@ import com.creative.model.Certificates;
 import com.creative.model.Father;
 import com.creative.model.Message;
 import com.creative.model.Son;
-import com.google.common.base.Stopwatch;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.concurrent.TimeUnit;
+import org.openjdk.jmh.annotations.Benchmark;
 
 public class KryoCodecTest extends CodecTest {
 
@@ -19,20 +17,9 @@ public class KryoCodecTest extends CodecTest {
         System.out.println(obj1.length);
     }
 
-    @Test
+    @Benchmark
     public void kryoCodecMultiTest() throws Exception {
-        //Warmup
-        for (int i = 1; i < warmupIter; i++) {
-            kryoEncodeAndDecode();
-        }
-        //do multi-test
-        Stopwatch watch = Stopwatch.createStarted();
-        for (int i = 1; i < testIter; i++) {
-            kryoEncodeAndDecode();
-        }
-        watch.stop();
-        System.out.println(String.format("Kyro serializer-deserializer costs: %d ms",
-                watch.elapsed(TimeUnit.MILLISECONDS)));
+        kryoEncodeAndDecode();
     }
 
     private void kryoEncodeAndDecode() throws Exception {

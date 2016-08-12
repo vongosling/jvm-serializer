@@ -6,16 +6,15 @@ import com.caucho.hessian.io.SerializerFactory;
 import com.creative.model.Father;
 import com.creative.model.Message;
 import com.creative.model.Son;
-import com.google.common.base.Stopwatch;
 import org.junit.Assert;
 import org.junit.Test;
+import org.openjdk.jmh.annotations.Benchmark;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 public class HessianCodecTest extends CodecTest{
 
@@ -83,20 +82,9 @@ public class HessianCodecTest extends CodecTest{
         System.out.println(sonCopy.isCCP());
     }
 
-    @Test
+    @Benchmark
     public void hessianCodecMultiTest() throws Throwable {
-        //Warmup
-        for (int i = 1; i < warmupIter; i++) {
-            hessianEncodeAndDecode();
-        }
-        //do multi-test
-        Stopwatch watch = Stopwatch.createStarted();
-        for (int i = 1; i < testIter; i++) {
-            hessianEncodeAndDecode();
-        }
-        watch.stop();
-        System.out.println(String.format("Hessian serializer-deserializer costs: %d ms",
-                watch.elapsed(TimeUnit.MILLISECONDS)));
+        hessianEncodeAndDecode();
     }
 
     private void hessianEncodeAndDecode() throws IOException {

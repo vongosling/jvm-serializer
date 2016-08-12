@@ -2,11 +2,10 @@ package com.creative.commons.utils;
 
 import com.creative.model.Message;
 import com.creative.model.Son;
-import com.google.common.base.Stopwatch;
 import org.junit.Test;
+import org.openjdk.jmh.annotations.Benchmark;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class JsonCodecTest extends CodecTest{
 
@@ -57,20 +56,9 @@ public class JsonCodecTest extends CodecTest{
         System.out.println(sonCopy.getSalary());
     }
 
-    @Test
+    @Benchmark
     public void jsonCodecMultiTest() throws IOException {
-        //Warmup
-        for (int i = 1; i < warmupIter; i++) {
-            jsonEncodeAndDecode();
-        }
-        //do multi-test
-        Stopwatch watch = Stopwatch.createStarted();
-        for (int i = 1; i < testIter; i++) {
-            jsonEncodeAndDecode();
-        }
-        watch.stop();
-        System.out.println(String.format("FastJson serializer-deserializer costs: %d ms",
-                watch.elapsed(TimeUnit.MILLISECONDS)));
+        jsonEncodeAndDecode();
     }
 
     private void jsonEncodeAndDecode() throws IOException {
