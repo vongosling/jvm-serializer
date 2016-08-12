@@ -1,6 +1,7 @@
 package com.creative.commons.utils;
 
 import com.creative.model.Message;
+import org.junit.Test;
 import org.openjdk.jmh.annotations.Benchmark;
 
 import java.io.IOException;
@@ -13,6 +14,12 @@ public class MsgPackCodecTest extends CodecTest{
     @Benchmark
     public void measureName() throws IOException {
         msgPackEncodeAndDecode();
+    }
+
+    @Test
+    public void msgPackCodecSizeTest() {
+        byte[] obj1 = MsgPackCodec.encode(msg1);
+        System.out.println(obj1.length);
     }
 
 
@@ -28,21 +35,3 @@ public class MsgPackCodecTest extends CodecTest{
     }
 }
 
-@org.msgpack.annotation.Message
-class NewMessage {
-    String a;
-
-    public NewMessage() {
-    }
-
-    public NewMessage(String a) {
-        this.a = a;
-    }
-
-    @Override
-    public String toString() {
-        return "NewMessage{" +
-                "a='" + a + '\'' +
-                '}';
-    }
-}

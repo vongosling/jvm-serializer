@@ -13,11 +13,11 @@ public class MainTest {
         Options opt = new OptionsBuilder()
                 .include(MsgPackCodecTest.class.getSimpleName())
                 .include(KryoCodecTest.class.getSimpleName())
-                .include(JsonCodecTest.class.getSimpleName())
+                .include(FastJsonCodecTest.class.getSimpleName())
                 .include(JdkCodecTest.class.getSimpleName())
                 .include(HessianCodecTest.class.getSimpleName())
-                .forks(2).measurementIterations(
-                10).warmupIterations(10).build();
+                .forks(1).measurementIterations(
+                3).warmupIterations(3).shouldDoGC(true).build();
 
         new Runner(opt).run();
     }

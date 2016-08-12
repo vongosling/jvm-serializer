@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openjdk.jmh.annotations.Benchmark;
 
+import java.util.concurrent.TimeUnit;
+
 public class KryoCodecTest extends CodecTest {
 
     @Test
@@ -20,6 +22,25 @@ public class KryoCodecTest extends CodecTest {
     @Benchmark
     public void kryoCodecMultiTest() throws Exception {
         kryoEncodeAndDecode();
+    }
+
+    @Test
+    public void testThrpt() throws InterruptedException {
+        final int[] count = {0};
+        Thread t = new Thread(() -> {
+            while (!Thread.interrupted()) {
+                try {
+                    kryoEncodeAndDecode();
+                    count[0]++;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+        TimeUnit.SECONDS.sleep(10);
+        t.interrupt();
+        System.out.println(count[0] / 10);
     }
 
     private void kryoEncodeAndDecode() throws Exception {

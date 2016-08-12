@@ -7,7 +7,7 @@ import org.openjdk.jmh.annotations.Benchmark;
 
 import java.io.IOException;
 
-public class JsonCodecTest extends CodecTest{
+public class FastJsonCodecTest extends CodecTest{
 
     @Test
     public void jsonCodecSizeTest() throws Throwable {
