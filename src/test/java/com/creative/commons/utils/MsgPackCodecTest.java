@@ -12,7 +12,7 @@ import java.io.IOException;
 public class MsgPackCodecTest extends CodecTest{
 
     @Benchmark
-    public void measureName() throws IOException {
+    public void msgPackCodecMultiTest() throws IOException {
         msgPackEncodeAndDecode();
     }
 
