@@ -1,14 +1,15 @@
-package com.creative.commons.utils;
+package com.creative.commons.utils.unittest;
 
 import com.caucho.hessian.io.ExtSerializerFactory;
 import com.caucho.hessian.io.LocaleSerializer;
 import com.caucho.hessian.io.SerializerFactory;
+import com.creative.commons.utils.CodecTest;
+import com.creative.commons.utils.HessianCodec;
 import com.creative.model.Father;
 import com.creative.model.Message;
 import com.creative.model.Son;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openjdk.jmh.annotations.Benchmark;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -16,7 +17,7 @@ import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.Locale;
 
-public class HessianCodecTest extends CodecTest{
+public class HessianCodecTest extends CodecTest {
 
     @Test
     public void hessianCodecSizeTest() throws Throwable {
@@ -82,12 +83,7 @@ public class HessianCodecTest extends CodecTest{
         System.out.println(sonCopy.isCCP());
     }
 
-    @Benchmark
-    public void hessianCodecMultiTest() throws Throwable {
-        hessianEncodeAndDecode();
-    }
-
-    private void hessianEncodeAndDecode() throws IOException {
+    protected void hessianEncodeAndDecode() throws IOException {
         byte[] obj1 = HessianCodec.encode(msg1);
         msg1 = (Message) HessianCodec.decode(obj1);
 

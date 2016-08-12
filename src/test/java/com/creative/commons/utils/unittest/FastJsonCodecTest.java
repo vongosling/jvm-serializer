@@ -1,13 +1,14 @@
-package com.creative.commons.utils;
+package com.creative.commons.utils.unittest;
 
+import com.creative.commons.utils.CodecTest;
+import com.creative.commons.utils.JsonCodec;
 import com.creative.model.Message;
 import com.creative.model.Son;
 import org.junit.Test;
-import org.openjdk.jmh.annotations.Benchmark;
 
 import java.io.IOException;
 
-public class FastJsonCodecTest extends CodecTest{
+public class FastJsonCodecTest extends CodecTest {
 
     @Test
     public void jsonCodecSizeTest() throws Throwable {
@@ -56,12 +57,7 @@ public class FastJsonCodecTest extends CodecTest{
         System.out.println(sonCopy.getSalary());
     }
 
-    @Benchmark
-    public void jsonCodecMultiTest() throws IOException {
-        jsonEncodeAndDecode();
-    }
-
-    private void jsonEncodeAndDecode() throws IOException {
+    protected void jsonEncodeAndDecode() throws IOException {
         byte[] obj1 = JsonCodec.encode(msg1);
         msg1 = JsonCodec.decode(obj1, Message.class);
 

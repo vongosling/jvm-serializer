@@ -1,12 +1,13 @@
-package com.creative.commons.utils;
+package com.creative.commons.utils.unittest;
 
+import com.creative.commons.utils.CodecTest;
+import com.creative.commons.utils.KryoCodec;
 import com.creative.model.Certificates;
 import com.creative.model.Father;
 import com.creative.model.Message;
 import com.creative.model.Son;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openjdk.jmh.annotations.Benchmark;
 
 import java.util.concurrent.TimeUnit;
 
@@ -17,11 +18,6 @@ public class KryoCodecTest extends CodecTest {
         KryoCodec.register(Message.class);
         byte[] obj1 = KryoCodec.encode(msg1);
         System.out.println(obj1.length);
-    }
-
-    @Benchmark
-    public void kryoCodecMultiTest() throws Exception {
-        kryoEncodeAndDecode();
     }
 
     @Test
@@ -43,7 +39,7 @@ public class KryoCodecTest extends CodecTest {
         System.out.println(count[0] / 10);
     }
 
-    private void kryoEncodeAndDecode() throws Exception {
+    protected void kryoEncodeAndDecode() throws Exception {
         KryoCodec.register(Message.class);
         KryoCodec.register(Father.class);
         KryoCodec.register(Son.class);

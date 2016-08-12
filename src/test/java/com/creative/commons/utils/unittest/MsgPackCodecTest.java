@@ -1,20 +1,16 @@
-package com.creative.commons.utils;
+package com.creative.commons.utils.unittest;
 
+import com.creative.commons.utils.CodecTest;
+import com.creative.commons.utils.MsgPackCodec;
 import com.creative.model.Message;
 import org.junit.Test;
-import org.openjdk.jmh.annotations.Benchmark;
 
 import java.io.IOException;
 
 /**
  * @author xinyuzhou.zxy
  */
-public class MsgPackCodecTest extends CodecTest{
-
-    @Benchmark
-    public void msgPackCodecMultiTest() throws IOException {
-        msgPackEncodeAndDecode();
-    }
+public class MsgPackCodecTest extends CodecTest {
 
     @Test
     public void msgPackCodecSizeTest() {
@@ -23,7 +19,7 @@ public class MsgPackCodecTest extends CodecTest{
     }
 
 
-    private void msgPackEncodeAndDecode() throws IOException {
+    protected void msgPackEncodeAndDecode() throws IOException {
         byte[] obj1 = MsgPackCodec.encode(msg1);
         msg1 = MsgPackCodec.decode(obj1, Message.class);
 

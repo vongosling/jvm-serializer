@@ -1,17 +1,17 @@
-package com.creative.commons.utils;
+package com.creative.commons.utils.unittest;
 
+import com.creative.commons.utils.CodecTest;
 import com.creative.model.Father;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openjdk.jmh.annotations.Benchmark;
 
 import java.io.*;
 
 /**
  * @author xinyuzhou.zxy
  */
-public class JdkCodecTest extends CodecTest{
-    private Object javaEncodeAndDecode(Object msg) throws IOException, ClassNotFoundException {
+public class JdkCodecTest extends CodecTest {
+    protected Object javaEncodeAndDecode(Object msg) throws IOException, ClassNotFoundException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(baos);
         oos.writeObject(msg);
@@ -25,13 +25,6 @@ public class JdkCodecTest extends CodecTest{
         bais.close();
 
         return obj;
-    }
-
-    @Benchmark
-    public void javaCodecMultiTest() throws Exception {
-        javaEncodeAndDecode(msg1);
-        javaEncodeAndDecode(msg2);
-        javaEncodeAndDecode(msg3);
     }
 
     @Test
