@@ -4,7 +4,7 @@ jvm-serializ[![Build Status](https://travis-ci.org/vongosling/jvm-serializer.svg
 #### This project is a function and performance benchmark test for kyro3,fastjson and hessian codec(Serialize and Deserialize).which are most popular non-schema Serialize and Deserialize tools nowadays. 
 ### Environment
 #### Hardware: 
-#####  Intel(R) Core(TM) i5-3230M CPU @ 2.60GHz,4 core 8G memory
+#####  Intel(R) Core(TM) i7 CPU @ 2.2GHz,8 core 16G memory
 #### Software:
 ##### Darwin Kernel Version 15.4.0: Fri Feb 26 22:08:05 PST 2016; root:xnu-3248.40.184~3/RELEASE_X86_64 x86_64
 ##### Java HotSpot(TM) 64-Bit Server VM (build 25.77-b03, mixed mode)
