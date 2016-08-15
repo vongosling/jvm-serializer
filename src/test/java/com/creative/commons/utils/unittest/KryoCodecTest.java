@@ -1,10 +1,11 @@
-package com.creative.commons.utils;
+package com.creative.commons.utils.unittest;
 
+import com.creative.commons.utils.CodecTest;
+import com.creative.commons.utils.KryoCodec;
 import com.creative.model.Certificates;
 import com.creative.model.Father;
 import com.creative.model.Message;
 import com.creative.model.Son;
-import com.google.common.base.Stopwatch;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -20,22 +21,25 @@ public class KryoCodecTest extends CodecTest {
     }
 
     @Test
-    public void kryoCodecMultiTest() throws Exception {
-        //Warmup
-        for (int i = 1; i < warmupIter; i++) {
-            kryoEncodeAndDecode();
-        }
-        //do multi-test
-        Stopwatch watch = Stopwatch.createStarted();
-        for (int i = 1; i < testIter; i++) {
-            kryoEncodeAndDecode();
-        }
-        watch.stop();
-        System.out.println(String.format("Kyro serializer-deserializer costs: %d ms",
-                watch.elapsed(TimeUnit.MILLISECONDS)));
+    public void testThrpt() throws InterruptedException {
+        final int[] count = {0};
+        Thread t = new Thread(() -> {
+            while (!Thread.interrupted()) {
+                try {
+                    kryoEncodeAndDecode();
+                    count[0]++;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+        TimeUnit.SECONDS.sleep(10);
+        t.interrupt();
+        System.out.println(count[0] / 10);
     }
 
-    private void kryoEncodeAndDecode() throws Exception {
+    protected void kryoEncodeAndDecode() throws Exception {
         KryoCodec.register(Message.class);
         KryoCodec.register(Father.class);
         KryoCodec.register(Son.class);

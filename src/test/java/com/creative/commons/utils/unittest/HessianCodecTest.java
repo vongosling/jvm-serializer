@@ -1,12 +1,13 @@
-package com.creative.commons.utils;
+package com.creative.commons.utils.unittest;
 
 import com.caucho.hessian.io.ExtSerializerFactory;
 import com.caucho.hessian.io.LocaleSerializer;
 import com.caucho.hessian.io.SerializerFactory;
+import com.creative.commons.utils.CodecTest;
+import com.creative.commons.utils.HessianCodec;
 import com.creative.model.Father;
 import com.creative.model.Message;
 import com.creative.model.Son;
-import com.google.common.base.Stopwatch;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,9 +16,8 @@ import java.math.BigDecimal;
 import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
-public class HessianCodecTest extends CodecTest{
+public class HessianCodecTest extends CodecTest {
 
     @Test
     public void hessianCodecSizeTest() throws Throwable {
@@ -83,23 +83,7 @@ public class HessianCodecTest extends CodecTest{
         System.out.println(sonCopy.isCCP());
     }
 
-    @Test
-    public void hessianCodecMultiTest() throws Throwable {
-        //Warmup
-        for (int i = 1; i < warmupIter; i++) {
-            hessianEncodeAndDecode();
-        }
-        //do multi-test
-        Stopwatch watch = Stopwatch.createStarted();
-        for (int i = 1; i < testIter; i++) {
-            hessianEncodeAndDecode();
-        }
-        watch.stop();
-        System.out.println(String.format("Hessian serializer-deserializer costs: %d ms",
-                watch.elapsed(TimeUnit.MILLISECONDS)));
-    }
-
-    private void hessianEncodeAndDecode() throws IOException {
+    protected void hessianEncodeAndDecode() throws IOException {
         byte[] obj1 = HessianCodec.encode(msg1);
         msg1 = (Message) HessianCodec.decode(obj1);
 

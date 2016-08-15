@@ -4,16 +4,18 @@ jvm-serializ[![Build Status](https://travis-ci.org/vongosling/jvm-serializer.svg
 #### This project is a function and performance benchmark test for kyro3,fastjson and hessian codec(Serialize and Deserialize).which are most popular non-schema Serialize and Deserialize tools nowadays. 
 ### Environment
 #### Hardware: 
-#####  Intel(R) Core(TM) i5-3230M CPU @ 2.60GHz,4 core 8G memory
+#####  Intel(R) Core(TM) i7 CPU @ 2.2GHz,8 core 16G memory
 #### Software:
-##### kernel 3.13.0-43-generic,x86_64 GNU/Linux
-##### Java HotSpot(TM) 64-Bit Server VM 1.7.0_25
+##### Darwin Kernel Version 15.4.0: Fri Feb 26 22:08:05 PST 2016; root:xnu-3248.40.184~3/RELEASE_X86_64 x86_64
+##### Java HotSpot(TM) 64-Bit Server VM (build 25.77-b03, mixed mode)
 
 ### Test case
-#### 1.After 12000 times warm up op,do 5000 times codec loop.recycle this procedure 10 times.
+#### 1.After 10 times warmup iterations op, do 10 times measurement iterations, each iteration costs 5 seconds.
 #### 2.Consider some special java type,such as BitEnum,EnumSet etc...
 #### Report
-![Codec Time consumption comparison](https://raw.githubusercontent.com/vongosling/jvm-serializer/master/resources/costs.png)
-![Codec size comparison](https://raw.githubusercontent.com/vongosling/jvm-serializer/master/resources/size.png)
 
-##### If you have any good advice,please contact me through email fengjia10@gmail.com
+![Codec TPS comparison](./resources/tps.png)
+![Codec size comparison](./resources/size.png)
+
+##### If you have any good advice,please contact me through email fengjia10@gmail.com or zhou@xinyu.im
+

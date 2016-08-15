@@ -1,14 +1,14 @@
-package com.creative.commons.utils;
+package com.creative.commons.utils.unittest;
 
+import com.creative.commons.utils.CodecTest;
+import com.creative.commons.utils.JsonCodec;
 import com.creative.model.Message;
 import com.creative.model.Son;
-import com.google.common.base.Stopwatch;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
-public class JsonCodecTest extends CodecTest{
+public class FastJsonCodecTest extends CodecTest {
 
     @Test
     public void jsonCodecSizeTest() throws Throwable {
@@ -57,23 +57,7 @@ public class JsonCodecTest extends CodecTest{
         System.out.println(sonCopy.getSalary());
     }
 
-    @Test
-    public void jsonCodecMultiTest() throws IOException {
-        //Warmup
-        for (int i = 1; i < warmupIter; i++) {
-            jsonEncodeAndDecode();
-        }
-        //do multi-test
-        Stopwatch watch = Stopwatch.createStarted();
-        for (int i = 1; i < testIter; i++) {
-            jsonEncodeAndDecode();
-        }
-        watch.stop();
-        System.out.println(String.format("FastJson serializer-deserializer costs: %d ms",
-                watch.elapsed(TimeUnit.MILLISECONDS)));
-    }
-
-    private void jsonEncodeAndDecode() throws IOException {
+    protected void jsonEncodeAndDecode() throws IOException {
         byte[] obj1 = JsonCodec.encode(msg1);
         msg1 = JsonCodec.decode(obj1, Message.class);
 

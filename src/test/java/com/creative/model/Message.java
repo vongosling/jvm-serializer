@@ -1,13 +1,14 @@
 package com.creative.model;
 
+import com.google.common.collect.Maps;
+
 import java.io.Serializable;
 import java.util.Map;
-
-import com.google.common.collect.Maps;
 
 /**
  * @author Von Gosling
  */
+@org.msgpack.annotation.Message
 public class Message implements Serializable {
     private static final long serialVersionUID = 1892011038502772782L;
     /**
@@ -21,7 +22,7 @@ public class Message implements Serializable {
     /**
      * message body
      */
-    protected Serializable body;
+    protected transient Serializable body;
 
     public Message(Serializable body) {
         this.body = body;
