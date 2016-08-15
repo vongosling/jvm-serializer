@@ -78,8 +78,7 @@ public class ObjectTemplate  extends AbstractTemplate<Object>{
         } else if (value.isMapValue()) { // Map
             MapValue v = value.asMapValue();
 
-
-            Map map = new HashMap<>(v.size());
+            Map<Object,Object> map = new HashMap<>(v.size());
             for (Map.Entry<Value, Value> entry : v.entrySet()) {
                 Value key = entry.getKey();
                 Value val = entry.getValue();
