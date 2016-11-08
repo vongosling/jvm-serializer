@@ -1,4 +1,4 @@
-jvm-serializ[![Build Status](https://travis-ci.org/vongosling/jvm-serializer.svg?branch=master)](https://travis-ci.org/vongosling/jvm-serializer)
+jvm-serializer[![Build Status](https://travis-ci.org/vongosling/jvm-serializer.svg?branch=master)](https://travis-ci.org/vongosling/jvm-serializer)
 ==============
 ### Description
 #### This project is a function and performance benchmark test for kyro4,fastjson,hessian and messagePack codec (Serialize and Deserialize).which are most popular non-schema Serialize and Deserialize tools nowadays. 
