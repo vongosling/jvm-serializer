@@ -16,6 +16,11 @@ jvm-serializer[![Build Status](https://travis-ci.org/vongosling/jvm-serializer.s
 
 ![Codec TPS comparison](./resources/tps.png)
 ![Codec size comparison](./resources/size.png)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fvongosling%2Fjvm-serializer.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fvongosling%2Fjvm-serializer?ref=badge_shield)
 
 ##### If you have any good advice,please contact fengjia10@gmail.com or zhou@xinyu.im
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fvongosling%2Fjvm-serializer.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fvongosling%2Fjvm-serializer?ref=badge_large)
